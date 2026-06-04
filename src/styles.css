@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #f7f7f2;
+  background: #070708;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --pp-bg: #070708;
+  --pp-ink: #f7f7f2;
+  --pp-muted: rgba(247, 247, 242, 0.58);
+  --pp-faint: rgba(247, 247, 242, 0.34);
+  --pp-glass: rgba(255, 255, 255, 0.055);
+  --pp-glass-strong: rgba(255, 255, 255, 0.085);
+  --pp-border: rgba(255, 255, 255, 0.095);
+  --pp-border-strong: rgba(255, 255, 255, 0.17);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--pp-bg);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.score-ring {
+  background:
+    radial-gradient(circle closest-side, white 72%, transparent 73% 100%),
+    conic-gradient(var(--ring-color) calc(var(--score) * 1%), #e4e9ee 0);
+}
+
+.pp-page {
+  background:
+    radial-gradient(circle at 50% -12%, rgba(255, 255, 255, 0.1), transparent 32rem),
+    radial-gradient(circle at 85% 12%, rgba(130, 145, 255, 0.08), transparent 26rem),
+    var(--pp-bg);
+  color: var(--pp-ink);
+}
+
+.pp-glass {
+  border: 1px solid var(--pp-border);
+  background: var(--pp-glass);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(24px);
+}
+
+.pp-glass-hover {
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.pp-glass-hover:hover {
+  border-color: var(--pp-border-strong);
+  background: var(--pp-glass-strong);
+}
+
+.pp-pill {
+  border: 1px solid var(--pp-border);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.pp-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pp-faint);
+}
+
+.pp-primary {
+  background: #f7f7f2;
+  color: #070708;
+  box-shadow: 0 16px 45px rgba(255, 255, 255, 0.14);
+}
+
+.pp-primary:hover {
+  background: #ffffff;
+}
+
+.pp-focus {
+  outline: none;
+}
+
+.pp-focus:focus {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.06);
+}
