@@ -4,6 +4,61 @@ Pitch Presence Coach is a browser-based practice tool for startup pitches, case 
 
 It records an answer locally, analyzes delivery and transcript quality in the browser, then produces a timestamp-level coaching debrief.
 
+## Live Demo
+
+Try it here:
+
+[https://pitch-presence-coach.vercel.app/record](https://pitch-presence-coach.vercel.app/record)
+
+## What It Does
+
+This app helps you practice speaking under interview or pitch conditions.
+
+You choose a scenario, record yourself answering, and the app gives feedback on:
+
+- what you said
+- how clearly you said it
+- whether you covered the expected answer points
+- how fast or slow you spoke
+- filler words like "um", "uh", "like", and "you know"
+- long pauses or dead air
+- vocal energy
+- eye contact and posture signals
+
+The goal is simple: make practice feel closer to a real interview, not just a random webcam recording.
+
+## How To Use It
+
+1. Open the live demo or run the app locally.
+2. Choose a practice mode, such as Product Management, DSA Problem Solving, Startup Pitch, or Sales Call.
+3. Pick a company/interview style and sample question.
+4. Optionally paste your own custom question.
+5. Enter the recording studio.
+6. Record your answer.
+7. Review your scorecard, transcript, timeline moments, missed answer concepts, and suggested fixes.
+8. Practice again and compare your attempts over time.
+
+## Use It For Your Own Needs
+
+You can adapt this project for your own interview prep, coaching workflow, or learning product.
+
+Examples:
+
+- Add your own company-specific interview questions.
+- Create new prompt packs for PM, SWE, consulting, sales, or founder fundraising.
+- Add answer-key terms for each prompt so the app can check whether the answer covered the important ideas.
+- Use it as a private practice tool before interviews.
+- Use it as a coaching dashboard for students, founders, or job seekers.
+- Replace the Claude debrief with your own scoring rules or a backend API.
+
+Most of the practice content lives in:
+
+```text
+src/data/interviewPacks.js
+```
+
+That is the main file to edit if you want to add new modes, companies, prompts, rubrics, or answer expectations.
+
 ## Features
 
 - Full-screen recording studio with webcam preview
