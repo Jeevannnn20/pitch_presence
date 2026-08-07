@@ -1,26 +1,5 @@
 import { formatTimestamp } from './analyzeSignals.js'
 
-const SYSTEM_PROMPT = `You are a world-class pitch coach and communication trainer. You will receive structured data from a recorded pitch or interview answer. Your job is to return a coaching debrief in the following exact JSON format:
-{
-"verdict": "2-3 sentence overall assessment",
-"scores": {
-"eyeContact": { "score": 0-100, "comment": "one line" },
-"posture": { "score": 0-100, "comment": "one line" },
-"energy": { "score": 0-100, "comment": "one line" },
-"pace": { "score": 0-100, "comment": "one line" },
-"clarity": { "score": 0-100, "comment": "one line" }
-},
-"moments": [
-{ "timestamp": "0:42", "type": "warning|strength", "message": "specific observation" }
-],
-"fixes": [
-"Specific actionable fix 1",
-"Specific actionable fix 2",
-"Specific actionable fix 3"
-]
-}
-Be specific. Reference exact timestamps. Be direct and honest - this is coaching, not encouragement.`
-
 function extractJson(text) {
   const trimmed = text.trim()
   const firstBrace = trimmed.indexOf('{')
@@ -152,49 +131,24 @@ function localDebrief(signals) {
 }
 
 export async function getClaudeDebrief(signals) {
-  const apiKey = import.meta.env?.VITE_ANTHROPIC_API_KEY
-
-  if (!apiKey) {
-    return localDebrief(signals)
-  }
-
+  // The model call runs server-side (api/debrief.js -> OpenRouter) so no key is in the
+  // browser. If the proxy is unreachable, unconfigured, or errors, fall back to the
+  // deterministic localDebrief below.
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/debrief', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1400,
-        temperature: 0.3,
-        system: `${SYSTEM_PROMPT}
-
-Scoring rules:
-- If attemptQuality.status is "silent", "too_short", "too_few_words", or "thin_answer", do not give generous scores. Respect scoresHint as a ceiling.
-- Use contentCoverage and practiceContext.answerKey to judge whether the answer actually addressed the problem, not just whether delivery sounded polished.
-- If transcript.wordCount is near zero, say the attempt is not meaningfully scorable.`,
-        messages: [
-          {
-            role: 'user',
-            content: JSON.stringify(signals)
-          }
-        ]
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(signals)
     })
 
     if (!response.ok) {
-      throw new Error(`Claude request failed with ${response.status}`)
+      throw new Error(`Debrief request failed with ${response.status}`)
     }
 
     const data = await response.json()
-    const text = data.content?.map((part) => part.text || '').join('\n') || ''
-    return extractJson(text)
+    return extractJson(data.text || '')
   } catch (error) {
-    console.warn('Claude debrief failed, using local debrief:', error)
+    console.warn('Remote debrief failed, using local debrief:', error)
     return localDebrief(signals)
   }
 }

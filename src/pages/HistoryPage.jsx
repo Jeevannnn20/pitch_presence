@@ -1,6 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { clearHistory, readHistory } from '../lib/history.js'
+import { readHistory } from '../lib/history.js'
+import { clearAttempts, loadHistory } from '../lib/historyStore.js'
+import { useAuth } from '../context/AuthContext.jsx'
+import AccountMenu from '../components/AccountMenu.jsx'
 
 function formatDate(value) {
   try {
@@ -78,7 +81,27 @@ function StatCard({ label, value, subtext }) {
 }
 
 export default function HistoryPage() {
+  const { user, configured } = useAuth()
+  // Seed synchronously from local for a zero-flash first paint, then reconcile with the
+  // cloud (when signed in) once loadHistory resolves.
   const [attempts, setAttempts] = useState(() => readHistory())
+  const [syncing, setSyncing] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    setSyncing(true)
+    loadHistory()
+      .then((merged) => {
+        if (active) setAttempts(merged)
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (active) setSyncing(false)
+      })
+    return () => {
+      active = false
+    }
+  }, [user])
 
   const stats = useMemo(() => {
     const scores = attempts.map((attempt) => attempt.overallScore).filter(Number.isFinite)
@@ -92,9 +115,13 @@ export default function HistoryPage() {
     return { best, average, rubricAverage }
   }, [attempts])
 
-  function handleClear() {
-    clearHistory()
+  async function handleClear() {
     setAttempts([])
+    try {
+      await clearAttempts()
+    } catch (error) {
+      console.warn('Clear history failed:', error)
+    }
   }
 
   return (
@@ -110,10 +137,23 @@ export default function HistoryPage() {
             </Link>
             <h1 className="mt-4 text-4xl font-bold tracking-[-0.02em] text-[#f0f0ff] sm:text-5xl">Practice History</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-[#8888aa]">
-              Local-only progress tracking for completed sessions. Your attempts stay in this browser.
+              {user
+                ? `Synced to your account${syncing ? ' — updating…' : ''}. Your attempts follow you across devices.`
+                : configured
+                  ? 'Saved only on this browser. Sign in to sync your progress across devices.'
+                  : 'Local progress tracking for completed sessions. Your attempts stay in this browser.'}
             </p>
+            {!user && configured && (
+              <Link
+                to="/login"
+                className="mt-3 inline-flex rounded-full border border-[#4f6ef7]/40 bg-[#4f6ef7]/10 px-3.5 py-1.5 text-xs font-semibold text-[#aab6ff] transition hover:bg-[#4f6ef7]/20"
+              >
+                Sign in to sync →
+              </Link>
+            )}
           </div>
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3">
+            <AccountMenu />
             {attempts.length > 0 && (
               <button
                 type="button"

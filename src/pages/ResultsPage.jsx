@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import ScoreCard from '../components/ScoreCard.jsx'
 import Timeline from '../components/Timeline.jsx'
 import TranscriptReview from '../components/TranscriptReview.jsx'
-import { saveAttempt } from '../lib/history.js'
+import AccountMenu from '../components/AccountMenu.jsx'
+import { saveAttempt } from '../lib/historyStore.js'
 
 function readStoredResult() {
   try {
@@ -49,7 +50,9 @@ export default function ResultsPage() {
 
   useEffect(() => {
     if (result?.debrief && result?.signals) {
-      saveAttempt(result)
+      // Fire-and-forget: the optimistic local write is synchronous inside saveAttempt;
+      // the cloud upsert (if signed in) runs in the background.
+      saveAttempt(result).catch((error) => console.warn('Save attempt failed:', error))
     }
   }, [result])
 
@@ -113,7 +116,7 @@ export default function ResultsPage() {
             <button type="button" onClick={() => navigate('/record')} className="text-sm font-medium text-white/50 transition hover:text-white">
               ← Record Again
             </button>
-            <div className="flex flex-wrap justify-end gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-2">
               <span className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1 text-xs font-semibold text-white/70">{selectedMode}</span>
               {practiceContext && (
                 <span className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1 text-xs font-semibold text-white/70">
@@ -121,6 +124,7 @@ export default function ResultsPage() {
                 </span>
               )}
               <span className="rounded-full border border-white/10 bg-white/[0.045] px-3 py-1 font-mono text-xs text-white/50">{formatDuration(signals.duration)}</span>
+              <AccountMenu />
             </div>
           </div>
           <h1 className="text-center text-4xl font-semibold tracking-[-0.02em] text-white sm:text-5xl">Pitch Debrief</h1>

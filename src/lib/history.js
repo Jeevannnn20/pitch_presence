@@ -1,7 +1,12 @@
+// Local (localStorage) history primitives + the pure attempt builder.
+// The async local+cloud orchestration lives in historyStore.js, which reuses the
+// builder and dedupe logic here so there is a single source of truth for the
+// attempt shape and fingerprint.
+
 const HISTORY_KEY = 'pitch-presence-history'
 const MAX_ATTEMPTS = 50
 
-function averageScore(scores = {}) {
+export function averageScore(scores = {}) {
   const values = Object.values(scores)
     .map((item) => Number(item?.score))
     .filter(Number.isFinite)
@@ -28,7 +33,9 @@ export function clearHistory() {
   localStorage.removeItem(HISTORY_KEY)
 }
 
-export function saveAttempt(result) {
+// Build a normalized attempt (including its dedupe fingerprint) from a raw result.
+// Returns null when the result is not scorable. Pure — no storage side effects.
+export function buildAttempt(result) {
   const debrief = result?.debrief
   const signals = result?.signals
   const practiceContext = result?.practiceContext || signals?.practiceContext
@@ -69,8 +76,13 @@ export function saveAttempt(result) {
     attempt.verdict
   ].join('|')
 
-  const existing = readHistory()
-  const duplicate = existing.find(
+  return attempt
+}
+
+// Find an already-stored attempt that this one duplicates (same fingerprint, same
+// timestamp, or the same prompt within a 3s window).
+export function findLocalDuplicate(existing, attempt) {
+  return existing.find(
     (item) =>
       item.fingerprint === attempt.fingerprint ||
       item.createdAt === attempt.createdAt ||
@@ -79,9 +91,14 @@ export function saveAttempt(result) {
         item.promptTitle === attempt.promptTitle &&
         Math.abs(new Date(item.createdAt).getTime() - new Date(attempt.createdAt).getTime()) < 3000)
   )
+}
 
-  if (duplicate) return duplicate
-
+// Optimistically persist an attempt to localStorage, deduped. Returns the stored
+// attempt (the existing one if a duplicate) and whether it was newly added.
+export function commitLocalAttempt(attempt) {
+  const existing = readHistory()
+  const duplicate = findLocalDuplicate(existing, attempt)
+  if (duplicate) return { attempt: duplicate, isNew: false }
   writeHistory([attempt, ...existing])
-  return attempt
+  return { attempt, isNew: true }
 }

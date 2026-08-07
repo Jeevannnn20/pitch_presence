@@ -15,10 +15,16 @@ import {
 } from '../data/interviewPacks.js'
 import analyzeSignals from '../lib/analyzeSignals.js'
 import { getClaudeDebrief } from '../lib/claudeDebrief.js'
+import AccountMenu from '../components/AccountMenu.jsx'
+
+// Display grouping for the mode picker. Categories render as labeled sections in
+// this order; a mode's `category` must match one of these strings.
+const CATEGORY_ORDER = ['Job Interviews', 'HR / Behavioral', 'Admissions', 'Pitch & Sales']
 
 const modes = [
   {
     title: 'Startup Pitch',
+    category: 'Pitch & Sales',
     subtitle: 'Investor presence + conviction',
     focus: 'conviction, storytelling arc, investor presence signals',
     icon: (
@@ -30,6 +36,7 @@ const modes = [
   },
   {
     title: 'Case Interview',
+    category: 'Job Interviews',
     subtitle: 'Structure + frameworks',
     focus: 'structured pauses, framework clarity, logical pacing',
     icon: (
@@ -42,6 +49,7 @@ const modes = [
   },
   {
     title: 'Tech Interview',
+    category: 'Job Interviews',
     subtitle: 'Clarity + confidence',
     focus: 'explanation clarity, confidence when uncertain, pacing on complex ideas',
     icon: (
@@ -52,6 +60,7 @@ const modes = [
   },
   {
     title: 'Product Management',
+    category: 'Job Interviews',
     subtitle: 'Product sense + execution',
     focus: 'product sense, user empathy, metrics, prioritization, strategy, and leadership communication',
     icon: (
@@ -63,6 +72,7 @@ const modes = [
   },
   {
     title: 'Software Engineering',
+    category: 'Job Interviews',
     subtitle: 'Design + tradeoffs',
     focus: 'technical decomposition, code quality, system tradeoffs, collaboration, and learning agility',
     icon: (
@@ -74,6 +84,7 @@ const modes = [
   },
   {
     title: 'DSA Problem Solving',
+    category: 'Job Interviews',
     subtitle: 'Algorithms + narration',
     focus: 'problem clarification, algorithm choice, edge cases, complexity analysis, and calm step-by-step reasoning',
     icon: (
@@ -85,6 +96,7 @@ const modes = [
   },
   {
     title: 'Developer Relations',
+    category: 'Job Interviews',
     subtitle: 'Demo + technical story',
     focus: 'developer empathy, technical demo clarity, API explanation, community trust, and persuasive teaching',
     icon: (
@@ -95,7 +107,44 @@ const modes = [
     )
   },
   {
+    title: 'Campus Placement',
+    category: 'Job Interviews',
+    subtitle: 'On-campus + service cos',
+    focus: 'self-introduction clarity, project explanation, company fit, and calm confidence under standard placement questions',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
+        <path d="M4 20V7l8-3.5L20 7v13M4 20h16" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+        <path d="M9 20v-4h6v4M9 9.5h.01M15 9.5h.01M9 13h.01M15 13h.01" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      </svg>
+    )
+  },
+  {
+    title: 'HR / Behavioral',
+    category: 'HR / Behavioral',
+    subtitle: 'STAR stories + fit',
+    focus: 'STAR structure, honest self-reflection, ownership, and composure on personal and behavioral questions',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
+        <path d="M12 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" strokeWidth="1.7" />
+        <path d="M5.5 20a6.5 6.5 0 0 1 13 0" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      </svg>
+    )
+  },
+  {
+    title: 'Admissions',
+    category: 'Admissions',
+    subtitle: 'MBA · grad · scholarship',
+    focus: 'motivation clarity, goal specificity, research or program fit, and authentic reflective delivery',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
+        <path d="M3 9l9-4 9 4-9 4-9-4Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+        <path d="M7 11v4c0 1.2 2.2 2.5 5 2.5s5-1.3 5-2.5v-4M21 9v5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    )
+  },
+  {
     title: 'Sales Call',
+    category: 'Pitch & Sales',
     subtitle: 'Energy + persuasion',
     focus: 'energy arc, persuasion buildup, closing energy in final 30 seconds',
     icon: (
@@ -686,31 +735,43 @@ export default function RecordPage() {
           >
             History
           </Link>
+          <AccountMenu />
         </nav>
 
         {view === 'setup' ? (
           <>
-            <section className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
-              {modes.map((mode) => {
-                const active = selectedMode === mode.title
+            <div className="mb-6 space-y-5">
+              {CATEGORY_ORDER.map((category) => {
+                const categoryModes = modes.filter((mode) => mode.category === category)
+                if (!categoryModes.length) return null
                 return (
-                  <button
-                    key={mode.title}
-                    type="button"
-                    onClick={() => selectMode(mode.title)}
-                    className={`rounded-[24px] border p-4 text-left transition duration-150 hover:scale-[1.02] ${
-                      active
-                        ? 'border-white/25 bg-white/[0.12] shadow-[0_22px_70px_rgba(0,0,0,0.28)]'
-                        : 'border-white/10 bg-white/[0.045] hover:border-white/20 hover:bg-white/[0.075]'
-                    }`}
-                  >
-                    <span className={active ? 'text-white' : 'text-white/50'}>{mode.icon}</span>
-                    <span className="mt-3 block text-[15px] font-semibold tracking-[-0.02em] text-white">{mode.title}</span>
-                    <span className="mt-1 block text-[11px] text-white/40">{mode.subtitle}</span>
-                  </button>
+                  <section key={category}>
+                    <p className="pp-label mb-2">{category}</p>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                      {categoryModes.map((mode) => {
+                        const active = selectedMode === mode.title
+                        return (
+                          <button
+                            key={mode.title}
+                            type="button"
+                            onClick={() => selectMode(mode.title)}
+                            className={`rounded-[24px] border p-4 text-left transition duration-150 hover:scale-[1.02] ${
+                              active
+                                ? 'border-white/25 bg-white/[0.12] shadow-[0_22px_70px_rgba(0,0,0,0.28)]'
+                                : 'border-white/10 bg-white/[0.045] hover:border-white/20 hover:bg-white/[0.075]'
+                            }`}
+                          >
+                            <span className={active ? 'text-white' : 'text-white/50'}>{mode.icon}</span>
+                            <span className="mt-3 block text-[15px] font-semibold tracking-[-0.02em] text-white">{mode.title}</span>
+                            <span className="mt-1 block text-[11px] text-white/40">{mode.subtitle}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </section>
                 )
               })}
-            </section>
+            </div>
 
             <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
               <div className="pp-glass rounded-[28px] p-6">

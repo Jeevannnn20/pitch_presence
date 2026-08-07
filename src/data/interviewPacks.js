@@ -167,6 +167,64 @@ export const interviewPacks = {
             text: 'Design an order processing pipeline for a marketplace. Explain retries, idempotency, observability, and how you would recover from partial failure.'
           }
         ]
+      },
+      {
+        id: 'netflix',
+        name: 'Netflix Streaming Design',
+        style: 'Scale-obsessed, availability-first, blunt about tradeoffs, and focused on global streaming reliability.',
+        sourceBasis: 'Inspired by public streaming architecture talks, engineering blogs, and candidate system design writeups.',
+        referenceLinks: [
+          { label: 'Netflix tech blog', url: 'https://netflixtechblog.com/' },
+          { label: 'Netflix jobs', url: 'https://jobs.netflix.com/' }
+        ],
+        focus: 'streaming scale, caching and CDN tradeoffs, availability, pacing through complex ideas, and confidence under ambiguity',
+        rubric: [
+          { name: 'Scale decomposition', weights: { clarity: 0.5, pace: 0.3, posture: 0.2 } },
+          { name: 'Availability tradeoffs', weights: { clarity: 0.55, energy: 0.2, eyeContact: 0.25 } },
+          { name: 'Complexity pacing', weights: { pace: 0.55, clarity: 0.3, energy: 0.15 } },
+          { name: 'Calm confidence', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } }
+        ],
+        prompts: [
+          {
+            id: 'video-streaming',
+            title: 'Video streaming',
+            text: 'Design a global video streaming service. Explain adaptive bitrate, CDN placement, caching, encoding pipelines, and how you keep playback reliable at scale.'
+          },
+          {
+            id: 'recommendations-feed',
+            title: 'Recommendation delivery',
+            text: 'Design the system that serves personalized recommendations on the home screen. Cover ranking, freshness, latency, precomputation, and failure modes.'
+          }
+        ]
+      },
+      {
+        id: 'nvidia',
+        name: 'Nvidia Systems + Performance',
+        style: 'Low-level, performance-obsessed, precise about hardware, memory, and parallelism tradeoffs.',
+        sourceBasis: 'Inspired by public systems and GPU-adjacent interview patterns, performance engineering talks, and candidate experience writeups.',
+        referenceLinks: [
+          { label: 'Nvidia careers', url: 'https://www.nvidia.com/en-us/about-nvidia/careers/' },
+          { label: 'Nvidia developer blog', url: 'https://developer.nvidia.com/blog/' }
+        ],
+        focus: 'systems fundamentals, parallelism and memory tradeoffs, performance reasoning, pacing through complex ideas, and confidence under ambiguity',
+        rubric: [
+          { name: 'Systems decomposition', weights: { clarity: 0.5, pace: 0.3, posture: 0.2 } },
+          { name: 'Performance tradeoffs', weights: { clarity: 0.55, energy: 0.2, eyeContact: 0.25 } },
+          { name: 'Complexity pacing', weights: { pace: 0.55, clarity: 0.3, energy: 0.15 } },
+          { name: 'Calm confidence', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } }
+        ],
+        prompts: [
+          {
+            id: 'gpu-scheduler',
+            title: 'GPU workload scheduling',
+            text: 'Design a scheduler that assigns machine learning workloads across a cluster of GPUs. Explain utilization, memory constraints, fairness, and failure recovery.'
+          },
+          {
+            id: 'matrix-perf',
+            title: 'Performance optimization',
+            text: 'A matrix-heavy compute kernel is memory-bound and underutilizing the hardware. Talk through how you would profile, identify bottlenecks, and improve throughput.'
+          }
+        ]
       }
     ]
   },
@@ -295,6 +353,64 @@ export const interviewPacks = {
             text: 'Design a product to help small restaurants get more repeat customers through a delivery marketplace.'
           }
         ]
+      },
+      {
+        id: 'uber-pm',
+        name: 'Uber PM',
+        style: 'Marketplace-aware, operational, experimentation-driven, and sensitive to rider, driver, and city-ops tradeoffs.',
+        sourceBasis: 'Inspired by public marketplace PM interview patterns and product execution cases around growth, pricing, and multi-sided marketplaces.',
+        referenceLinks: [
+          { label: 'Uber careers', url: 'https://www.uber.com/us/en/careers/' },
+          { label: 'Interview PM practice areas', url: 'https://www.interviewpm.com/' }
+        ],
+        focus: 'marketplace tradeoffs, experimentation, operational metrics, segmentation, and practical product judgment',
+        rubric: [
+          { name: 'Marketplace thinking', weights: { clarity: 0.45, pace: 0.25, energy: 0.15, eyeContact: 0.15 } },
+          { name: 'Experiment design', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Operational judgment', weights: { clarity: 0.4, posture: 0.2, energy: 0.2, eyeContact: 0.2 } },
+          { name: 'Prioritization', weights: { clarity: 0.45, pace: 0.25, energy: 0.15, posture: 0.15 } }
+        ],
+        prompts: [
+          {
+            id: 'driver-supply',
+            title: 'Marketplace execution',
+            text: 'Rider wait times spiked in one city during peak hours. Diagnose the issue across riders, drivers, and pricing, then propose an experiment to rebalance supply.'
+          },
+          {
+            id: 'rider-retention',
+            title: 'Growth product',
+            text: 'Design a product to improve repeat usage among riders who take only one trip and never return.'
+          }
+        ]
+      },
+      {
+        id: 'airbnb-pm',
+        name: 'Airbnb PM',
+        style: 'Design-led, guest-and-host empathetic, trust-focused, and rigorous about measurable experience quality.',
+        sourceBasis: 'Inspired by public consumer PM interview patterns and product sense cases around two-sided trust, design quality, and experience metrics.',
+        referenceLinks: [
+          { label: 'Airbnb careers', url: 'https://careers.airbnb.com/' },
+          { label: 'Interview PM practice areas', url: 'https://www.interviewpm.com/' }
+        ],
+        focus: 'product sense, guest and host empathy, trust and safety tradeoffs, experience metrics, and crisp communication',
+        rubric: [
+          { name: 'Product sense', weights: { clarity: 0.45, pace: 0.2, eyeContact: 0.2, energy: 0.15 } },
+          { name: 'User empathy', weights: { clarity: 0.4, eyeContact: 0.25, energy: 0.2, posture: 0.15 } },
+          { name: 'Trust tradeoffs', weights: { clarity: 0.45, pace: 0.25, energy: 0.15, eyeContact: 0.15 } },
+          { name: 'Experience metrics', weights: { clarity: 0.5, pace: 0.35, energy: 0.15 } }
+        ],
+        prompts: [
+          {
+            id: 'first-booking',
+            title: 'Product sense',
+            text: 'Design a product or feature to help first-time guests complete their first booking with confidence. Explain target users, pain points, solution, tradeoffs, and success metrics.'
+          },
+          {
+            id: 'host-trust',
+            title: 'Trust tradeoff',
+            text: 'A feature that speeds up booking also increases the risk of poor guest-host matches. Walk through how you would make the decision and align design, trust, and leadership.'
+          }
+        ]
       }
     ]
   },
@@ -414,6 +530,35 @@ export const interviewPacks = {
             id: 'actions-reliability',
             title: 'Platform reliability',
             text: 'A CI platform has intermittent queue delays during peak hours. Talk through diagnosis, architecture options, user communication, and tradeoffs.'
+          }
+        ]
+      },
+      {
+        id: 'apple-eng',
+        name: 'Apple Software Engineering',
+        style: 'Detail-obsessed, quality-first, precise about fundamentals, performance, and user-facing polish.',
+        sourceBasis: 'Inspired by Apple public engineering interview patterns emphasizing fundamentals, performance, memory, and product quality.',
+        referenceLinks: [
+          { label: 'Apple jobs', url: 'https://www.apple.com/careers/us/' },
+          { label: 'Apple developer resources', url: 'https://developer.apple.com/' }
+        ],
+        focus: 'technical fundamentals, performance and memory reasoning, quality mindset, edge cases, and clear engineering communication',
+        rubric: [
+          { name: 'Technical fundamentals', weights: { clarity: 0.5, pace: 0.25, energy: 0.15, posture: 0.1 } },
+          { name: 'Performance reasoning', weights: { clarity: 0.5, pace: 0.25, eyeContact: 0.15, energy: 0.1 } },
+          { name: 'Quality mindset', weights: { clarity: 0.4, energy: 0.2, posture: 0.2, eyeContact: 0.2 } },
+          { name: 'Clear communication', weights: { eyeContact: 0.3, clarity: 0.35, energy: 0.2, posture: 0.15 } }
+        ],
+        prompts: [
+          {
+            id: 'memory-efficient-structure',
+            title: 'Fundamentals',
+            text: 'Design a memory-efficient data structure for storing and querying a large stream of user events on a resource-constrained device. Discuss tradeoffs, edge cases, and complexity.'
+          },
+          {
+            id: 'ui-performance',
+            title: 'Performance debugging',
+            text: 'A list view stutters while scrolling through thousands of items. Explain how you would profile, identify the bottleneck, and improve responsiveness without regressions.'
           }
         ]
       }
@@ -705,6 +850,385 @@ export const interviewPacks = {
             id: 'payments-migration',
             title: 'Platform migration',
             text: 'A CTO is worried that migrating payments infrastructure will slow the roadmap. Explain the migration path and secure agreement on a pilot.'
+          }
+        ]
+      }
+    ]
+  },
+  'Campus Placement': {
+    label: 'Campus Placement',
+    targets: [
+      {
+        id: 'tcs-nqt',
+        name: 'TCS NQT Interview',
+        style: 'Structured, fundamentals-friendly, and focused on communication, willingness to learn, and cultural fit.',
+        sourceBasis: 'Inspired by public TCS National Qualifier Test interview experiences and campus placement preparation patterns.',
+        referenceLinks: [
+          { label: 'TCS careers', url: 'https://www.tcs.com/careers' }
+        ],
+        focus: 'self-introduction clarity, project explanation, company knowledge, confidence, and communication',
+        rubric: [
+          { name: 'Self-introduction clarity', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Project explanation', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Confidence', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } },
+          { name: 'Communication', weights: { clarity: 0.4, pace: 0.35, energy: 0.25 } }
+        ],
+        prompts: [
+          {
+            id: 'tell-me-about-yourself',
+            title: 'Self-introduction',
+            text: 'Tell me about yourself. Cover your background, key skills, and one project you are proud of in under two minutes.'
+          },
+          {
+            id: 'why-tcs',
+            title: 'Company fit',
+            text: 'Why do you want to join TCS, and are you comfortable relocating anywhere in India for the role?'
+          }
+        ]
+      },
+      {
+        id: 'infosys',
+        name: 'Infosys Interview',
+        style: 'Friendly, learning-oriented, and attentive to fundamentals, communication, and adaptability.',
+        sourceBasis: 'Inspired by public Infosys campus placement interview experiences and fresher hiring preparation patterns.',
+        referenceLinks: [
+          { label: 'Infosys careers', url: 'https://www.infosys.com/careers/' }
+        ],
+        focus: 'self-introduction clarity, project explanation, company knowledge, confidence, and communication',
+        rubric: [
+          { name: 'Self-introduction clarity', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Project explanation', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Confidence', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } },
+          { name: 'Communication', weights: { clarity: 0.4, pace: 0.35, energy: 0.25 } }
+        ],
+        prompts: [
+          {
+            id: 'introduce-and-project',
+            title: 'Project explanation',
+            text: 'Walk me through your final-year project. Explain the problem, your role, the technology you used, and what you learned.'
+          },
+          {
+            id: 'why-infosys',
+            title: 'Company fit',
+            text: 'Why do you want to join Infosys, and what do you know about the company and its training program?'
+          }
+        ]
+      },
+      {
+        id: 'wipro',
+        name: 'Wipro Interview',
+        style: 'Practical, straightforward, and focused on communication skills, basics, and willingness to work across roles.',
+        sourceBasis: 'Inspired by public Wipro campus placement interview experiences and entry-level hiring preparation patterns.',
+        referenceLinks: [
+          { label: 'Wipro careers', url: 'https://careers.wipro.com/' }
+        ],
+        focus: 'self-introduction clarity, project explanation, company knowledge, confidence, and communication',
+        rubric: [
+          { name: 'Self-introduction clarity', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Project explanation', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Confidence', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } },
+          { name: 'Communication', weights: { clarity: 0.4, pace: 0.35, energy: 0.25 } }
+        ],
+        prompts: [
+          {
+            id: 'strengths-weaknesses',
+            title: 'Strengths and weaknesses',
+            text: 'What are your greatest strengths and one weakness you are working on? Give a specific example for each.'
+          },
+          {
+            id: 'why-wipro-relocation',
+            title: 'Willingness and fit',
+            text: 'Why do you want to join Wipro, and are you willing to work in any shift or location the role requires?'
+          }
+        ]
+      },
+      {
+        id: 'cognizant',
+        name: 'Cognizant Interview',
+        style: 'Conversational, client-service oriented, and focused on communication, basics, and flexibility.',
+        sourceBasis: 'Inspired by public Cognizant campus placement interview experiences and fresher hiring preparation patterns.',
+        referenceLinks: [
+          { label: 'Cognizant careers', url: 'https://careers.cognizant.com/global/en' }
+        ],
+        focus: 'self-introduction clarity, project explanation, company knowledge, confidence, and communication',
+        rubric: [
+          { name: 'Self-introduction clarity', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Project explanation', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Confidence', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } },
+          { name: 'Communication', weights: { clarity: 0.4, pace: 0.35, energy: 0.25 } }
+        ],
+        prompts: [
+          {
+            id: 'tell-me-about-yourself-cts',
+            title: 'Self-introduction',
+            text: 'Tell me about yourself and why you chose your engineering branch. Keep it clear and structured.'
+          },
+          {
+            id: 'why-cognizant',
+            title: 'Company fit',
+            text: 'Why do you want to join Cognizant, and are you comfortable working night shifts to support global clients?'
+          }
+        ]
+      },
+      {
+        id: 'accenture',
+        name: 'Accenture Interview',
+        style: 'Professional, communication-focused, and interested in adaptability, teamwork, and basic technical grounding.',
+        sourceBasis: 'Inspired by public Accenture campus placement interview experiences and entry-level hiring preparation patterns.',
+        referenceLinks: [
+          { label: 'Accenture careers', url: 'https://www.accenture.com/us-en/careers' }
+        ],
+        focus: 'self-introduction clarity, project explanation, company knowledge, confidence, and communication',
+        rubric: [
+          { name: 'Self-introduction clarity', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Project explanation', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Confidence', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } },
+          { name: 'Communication', weights: { clarity: 0.4, pace: 0.35, energy: 0.25 } }
+        ],
+        prompts: [
+          {
+            id: 'why-accenture',
+            title: 'Company fit',
+            text: 'Why do you want to join Accenture, and what do you know about the kind of work the company does?'
+          },
+          {
+            id: 'relocation-willingness',
+            title: 'Willingness',
+            text: 'Are you willing to relocate and work with teams across different time zones? Explain how you would adapt.'
+          }
+        ]
+      }
+    ]
+  },
+  'Admissions': {
+    label: 'Admissions',
+    targets: [
+      {
+        id: 'mba-admissions',
+        name: 'MBA Admissions Interview',
+        style: 'Warm but probing, goal-oriented, and focused on motivation, self-awareness, and program fit.',
+        sourceBasis: 'Inspired by public MBA admissions interview guides, candidate debriefs, and business school preparation patterns.',
+        referenceLinks: [
+          { label: 'MBA interview prep', url: 'https://www.mba.com/exams-and-tools/admissions-and-interviews' }
+        ],
+        focus: 'motivation clarity, goal specificity, program fit, and authentic reflection',
+        rubric: [
+          { name: 'Motivation clarity', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Goal specificity', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Program fit', weights: { clarity: 0.45, eyeContact: 0.3, posture: 0.25 } },
+          { name: 'Authentic reflection', weights: { eyeContact: 0.35, clarity: 0.35, energy: 0.3 } }
+        ],
+        prompts: [
+          {
+            id: 'why-mba-now',
+            title: 'Why an MBA',
+            text: 'Why do you want an MBA, and why now? Connect it to your career so far and where you want to go next.'
+          },
+          {
+            id: 'why-this-school',
+            title: 'Program fit',
+            text: 'Why this school specifically? Name the aspects of the program and community that fit your goals.'
+          }
+        ]
+      },
+      {
+        id: 'phd-research-fit',
+        name: 'Graduate / PhD Research Fit Interview',
+        style: 'Rigorous, curiosity-driven, and focused on research alignment, depth of thinking, and advisor fit.',
+        sourceBasis: 'Inspired by public graduate and PhD admissions interview experiences and research-fit preparation patterns.',
+        referenceLinks: [
+          { label: 'PhD interview guidance', url: 'https://www.findaphd.com/guides/phd-interview-questions' }
+        ],
+        focus: 'motivation clarity, research fit, goal specificity, and authentic reflection',
+        rubric: [
+          { name: 'Research motivation', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Research fit', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Depth of thinking', weights: { clarity: 0.5, pace: 0.3, posture: 0.2 } },
+          { name: 'Authentic reflection', weights: { eyeContact: 0.35, clarity: 0.35, energy: 0.3 } }
+        ],
+        prompts: [
+          {
+            id: 'research-interests',
+            title: 'Research fit',
+            text: 'Describe your research interests and why they align with this lab or program. Reference specific work that draws you here.'
+          },
+          {
+            id: 'sop-defense',
+            title: 'Statement defense',
+            text: 'Defend a claim from your statement of purpose. Explain the reasoning and how you would pursue it as a research question.'
+          }
+        ]
+      },
+      {
+        id: 'scholarship-panel',
+        name: 'Scholarship / Fellowship Panel',
+        style: 'Values-driven, impact-focused, and attentive to leadership, integrity, and clarity of purpose.',
+        sourceBasis: 'Inspired by public scholarship and fellowship panel interview experiences and applicant preparation patterns.',
+        referenceLinks: [
+          { label: 'Scholarship interview tips', url: 'https://www.scholarships.com/resources/scholarship-interview-tips' }
+        ],
+        focus: 'motivation clarity, goal specificity, authentic reflection, and impact focus',
+        rubric: [
+          { name: 'Purpose clarity', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Impact focus', weights: { clarity: 0.5, energy: 0.3, pace: 0.2 } },
+          { name: 'Authentic reflection', weights: { eyeContact: 0.35, clarity: 0.35, energy: 0.3 } },
+          { name: 'Presence', weights: { eyeContact: 0.4, posture: 0.35, energy: 0.25 } }
+        ],
+        prompts: [
+          {
+            id: 'why-you-deserve',
+            title: 'Purpose and impact',
+            text: 'Why should the panel invest in you? Explain your goals and the impact you hope to create with this support.'
+          },
+          {
+            id: 'challenge-overcame',
+            title: 'Reflection',
+            text: 'Tell us about a meaningful challenge you overcame and what it taught you about yourself.'
+          }
+        ]
+      },
+      {
+        id: 'study-abroad-visa',
+        name: 'Study-Abroad Visa Interview',
+        style: 'Brisk, fact-checking, and focused on genuine intent, financial readiness, and clear post-study plans.',
+        sourceBasis: 'Inspired by public student visa interview experiences and study-abroad applicant preparation patterns.',
+        referenceLinks: [
+          { label: 'Student visa guidance', url: 'https://travel.state.gov/content/travel/en/us-visas/study/student-visa.html' }
+        ],
+        focus: 'motivation clarity, goal specificity, authentic reflection, and program fit',
+        rubric: [
+          { name: 'Intent clarity', weights: { clarity: 0.45, eyeContact: 0.35, energy: 0.2 } },
+          { name: 'Goal specificity', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Composure', weights: { eyeContact: 0.4, posture: 0.35, energy: 0.25 } },
+          { name: 'Consistency', weights: { clarity: 0.45, pace: 0.35, eyeContact: 0.2 } }
+        ],
+        prompts: [
+          {
+            id: 'why-this-country',
+            title: 'Intent',
+            text: 'Why did you choose this university and country for your studies over options at home?'
+          },
+          {
+            id: 'post-study-plans',
+            title: 'Future plans',
+            text: 'What are your plans after completing the program, and how will this degree support them?'
+          }
+        ]
+      }
+    ]
+  },
+  'HR / Behavioral': {
+    label: 'HR / Behavioral',
+    targets: [
+      {
+        id: 'general-hr',
+        name: 'General HR Round',
+        style: 'Friendly, rapport-building, and focused on fit, motivation, and honest self-presentation.',
+        sourceBasis: 'Inspired by public HR interview experiences and general behavioral round preparation patterns.',
+        referenceLinks: [
+          { label: 'HR interview questions', url: 'https://www.themuse.com/advice/interview-questions-and-answers' }
+        ],
+        focus: 'honest self-reflection, specificity, composure, and communication',
+        rubric: [
+          { name: 'Self-presentation', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Honest reflection', weights: { clarity: 0.4, eyeContact: 0.35, energy: 0.25 } },
+          { name: 'Composure', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } },
+          { name: 'Communication', weights: { clarity: 0.4, pace: 0.35, energy: 0.25 } }
+        ],
+        prompts: [
+          {
+            id: 'tell-me-about-yourself-hr',
+            title: 'Self-introduction',
+            text: 'Tell me about yourself, walking through your background, strengths, and what motivates you.'
+          },
+          {
+            id: 'why-hire-you',
+            title: 'Fit',
+            text: 'Why should we hire you over other equally qualified candidates? Be specific about what you bring.'
+          }
+        ]
+      },
+      {
+        id: 'star-behavioral',
+        name: 'STAR Behavioral Deep-Dive',
+        style: 'Structured, evidence-seeking, and focused on situation, task, action, and result with concrete detail.',
+        sourceBasis: 'Inspired by public behavioral interview guides and STAR-method preparation patterns.',
+        referenceLinks: [
+          { label: 'STAR method guide', url: 'https://www.indeed.com/career-advice/interviewing/how-to-use-the-star-interview-response-technique' }
+        ],
+        focus: 'STAR structure, specificity, ownership, and honest self-reflection',
+        rubric: [
+          { name: 'STAR structure', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Specificity', weights: { clarity: 0.5, pace: 0.3, eyeContact: 0.2 } },
+          { name: 'Ownership', weights: { clarity: 0.4, eyeContact: 0.3, energy: 0.3 } },
+          { name: 'Composure', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } }
+        ],
+        prompts: [
+          {
+            id: 'conflict-handled',
+            title: 'Conflict',
+            text: 'Describe a conflict you had with a teammate and how you handled it. Use the STAR structure and end with the result.'
+          },
+          {
+            id: 'time-you-failed',
+            title: 'Failure',
+            text: 'Tell me about a time you failed at something. Explain what happened, what you owned, and what you changed afterward.'
+          }
+        ]
+      },
+      {
+        id: 'values-culture-fit',
+        name: 'Values & Culture Fit',
+        style: 'Curious, values-probing, and focused on authenticity, alignment, and how you work with others.',
+        sourceBasis: 'Inspired by public culture-fit interview experiences and values-based hiring preparation patterns.',
+        referenceLinks: [
+          { label: 'Culture fit interview tips', url: 'https://www.themuse.com/advice/culture-fit-interview-questions' }
+        ],
+        focus: 'honest self-reflection, specificity, ownership, and composure',
+        rubric: [
+          { name: 'Authenticity', weights: { clarity: 0.4, eyeContact: 0.35, energy: 0.25 } },
+          { name: 'Values alignment', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Self-reflection', weights: { eyeContact: 0.35, clarity: 0.35, energy: 0.3 } },
+          { name: 'Composure', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } }
+        ],
+        prompts: [
+          {
+            id: 'strength-weakness',
+            title: 'Strength and weakness',
+            text: 'What is your greatest strength and your biggest weakness? Give an honest example of each and how you manage them.'
+          },
+          {
+            id: 'five-years',
+            title: 'Aspirations',
+            text: 'Where do you see yourself in five years, and how does this role fit into that path?'
+          }
+        ]
+      },
+      {
+        id: 'leadership-conflict',
+        name: 'Leadership & Conflict',
+        style: 'Probing on judgment, ownership, and influence, and focused on how you lead and resolve tension.',
+        sourceBasis: 'Inspired by public leadership behavioral interview experiences and management-round preparation patterns.',
+        referenceLinks: [
+          { label: 'Leadership interview questions', url: 'https://www.themuse.com/advice/leadership-interview-questions' }
+        ],
+        focus: 'STAR structure, ownership, composure, and specificity',
+        rubric: [
+          { name: 'Leadership judgment', weights: { clarity: 0.45, eyeContact: 0.3, energy: 0.25 } },
+          { name: 'Ownership', weights: { clarity: 0.4, eyeContact: 0.3, energy: 0.3 } },
+          { name: 'Conflict resolution', weights: { clarity: 0.5, pace: 0.3, energy: 0.2 } },
+          { name: 'Composure', weights: { eyeContact: 0.35, posture: 0.35, energy: 0.3 } }
+        ],
+        prompts: [
+          {
+            id: 'led-through-difficulty',
+            title: 'Leadership',
+            text: 'Tell me about a time you led a team through a difficult situation. Explain your approach and the outcome using STAR.'
+          },
+          {
+            id: 'disagreed-with-manager',
+            title: 'Conflict',
+            text: 'Describe a time you disagreed with a manager or leader. How did you handle it, and what was the result?'
           }
         ]
       }
