@@ -16,145 +16,18 @@ import {
 import analyzeSignals from '../lib/analyzeSignals.js'
 import { getClaudeDebrief } from '../lib/claudeDebrief.js'
 import AccountMenu from '../components/AccountMenu.jsx'
+import { CATEGORY_ORDER, trackMeta } from '../data/trackMeta.js'
+import { trackIcons, FALLBACK_ICON_KEY } from '../data/trackIcons.jsx'
 
-// Display grouping for the mode picker. Categories render as labeled sections in
-// this order; a mode's `category` must match one of these strings.
-const CATEGORY_ORDER = ['Job Interviews', 'HR / Behavioral', 'Admissions', 'Pitch & Sales']
-
-const modes = [
-  {
-    title: 'Startup Pitch',
-    category: 'Pitch & Sales',
-    subtitle: 'Investor presence + conviction',
-    focus: 'conviction, storytelling arc, investor presence signals',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M12 3c3.2 1.7 5 4.4 5 8l3 3-4 1-1 4-3-3c-3.6 0-6.3-1.8-8-5 3.2-.4 5.6-2.8 6-6l2-2Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-        <path d="M14 8.5h.01" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      </svg>
-    )
-  },
-  {
-    title: 'Case Interview',
-    category: 'Job Interviews',
-    subtitle: 'Structure + frameworks',
-    focus: 'structured pauses, framework clarity, logical pacing',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M9 7V5.8C9 4.8 9.8 4 10.8 4h2.4c1 0 1.8.8 1.8 1.8V7" stroke="currentColor" strokeWidth="1.7" />
-        <path d="M5 7h14v11.5c0 .8-.7 1.5-1.5 1.5h-11c-.8 0-1.5-.7-1.5-1.5V7Z" stroke="currentColor" strokeWidth="1.7" />
-        <path d="M5 12h14M10 12v1h4v-1" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-      </svg>
-    )
-  },
-  {
-    title: 'Tech Interview',
-    category: 'Job Interviews',
-    subtitle: 'Clarity + confidence',
-    focus: 'explanation clarity, confidence when uncertain, pacing on complex ideas',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="m9 7-5 5 5 5M15 7l5 5-5 5M13 5l-2 14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    )
-  },
-  {
-    title: 'Product Management',
-    category: 'Job Interviews',
-    subtitle: 'Product sense + execution',
-    focus: 'product sense, user empathy, metrics, prioritization, strategy, and leadership communication',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M4 7.5 12 3l8 4.5-8 4.5L4 7.5Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-        <path d="M4 12.5 12 17l8-4.5M4 17.5 12 22l8-4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    )
-  },
-  {
-    title: 'Software Engineering',
-    category: 'Job Interviews',
-    subtitle: 'Design + tradeoffs',
-    focus: 'technical decomposition, code quality, system tradeoffs, collaboration, and learning agility',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M7 8h10M7 12h7M7 16h5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-        <path d="M5.5 3.5h13c.8 0 1.5.7 1.5 1.5v14c0 .8-.7 1.5-1.5 1.5h-13c-.8 0-1.5-.7-1.5-1.5V5c0-.8.7-1.5 1.5-1.5Z" stroke="currentColor" strokeWidth="1.7" />
-      </svg>
-    )
-  },
-  {
-    title: 'DSA Problem Solving',
-    category: 'Job Interviews',
-    subtitle: 'Algorithms + narration',
-    focus: 'problem clarification, algorithm choice, edge cases, complexity analysis, and calm step-by-step reasoning',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M7 7h.01M17 7h.01M7 17h.01M17 17h.01" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-        <path d="M8.5 7h7M7 8.5v7M8.5 17h7M17 8.5v7M9 9l6 6M15 9l-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
-    )
-  },
-  {
-    title: 'Developer Relations',
-    category: 'Job Interviews',
-    subtitle: 'Demo + technical story',
-    focus: 'developer empathy, technical demo clarity, API explanation, community trust, and persuasive teaching',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M8 9.5 5.5 12 8 14.5M16 9.5l2.5 2.5-2.5 2.5M13.5 7 10.5 17" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M4 4h16v16H4V4Z" stroke="currentColor" strokeWidth="1.7" />
-      </svg>
-    )
-  },
-  {
-    title: 'Campus Placement',
-    category: 'Job Interviews',
-    subtitle: 'On-campus + service cos',
-    focus: 'self-introduction clarity, project explanation, company fit, and calm confidence under standard placement questions',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M4 20V7l8-3.5L20 7v13M4 20h16" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-        <path d="M9 20v-4h6v4M9 9.5h.01M15 9.5h.01M9 13h.01M15 13h.01" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-      </svg>
-    )
-  },
-  {
-    title: 'HR / Behavioral',
-    category: 'HR / Behavioral',
-    subtitle: 'STAR stories + fit',
-    focus: 'STAR structure, honest self-reflection, ownership, and composure on personal and behavioral questions',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M12 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" strokeWidth="1.7" />
-        <path d="M5.5 20a6.5 6.5 0 0 1 13 0" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-      </svg>
-    )
-  },
-  {
-    title: 'Admissions',
-    category: 'Admissions',
-    subtitle: 'MBA · grad · scholarship',
-    focus: 'motivation clarity, goal specificity, research or program fit, and authentic reflective delivery',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M3 9l9-4 9 4-9 4-9-4Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-        <path d="M7 11v4c0 1.2 2.2 2.5 5 2.5s5-1.3 5-2.5v-4M21 9v5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    )
-  },
-  {
-    title: 'Sales Call',
-    category: 'Pitch & Sales',
-    subtitle: 'Energy + persuasion',
-    focus: 'energy arc, persuasion buildup, closing energy in final 30 seconds',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-        <path d="M4 19h16M6 16l4-4 3 3 5-7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M15 8h3v3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    )
-  }
-]
+// Mode picker cards, derived from the shared track metadata (src/data/trackMeta.js) plus
+// the icon map (src/data/trackIcons.jsx). CATEGORY_ORDER controls the grouped sections.
+const modes = trackMeta.map((track) => ({
+  title: track.key,
+  category: track.category,
+  subtitle: track.subtitle,
+  focus: track.focus,
+  icon: trackIcons[track.iconKey] || trackIcons[FALLBACK_ICON_KEY]
+}))
 
 function formatTimer(seconds = 0) {
   const safe = Math.max(0, Math.floor(seconds))
